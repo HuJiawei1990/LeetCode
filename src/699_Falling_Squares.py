@@ -27,7 +27,7 @@ from datetime import datetime
 import bisect
 
 
-class Solution:
+class Solution(object):
     ## 由于square的边长远大于squares的个数, 利用区间存储高度
     @classmethod
     def fallingSquares(self, positions):

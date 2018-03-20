@@ -14,14 +14,27 @@
 import sys
 
 
-class TreeNode:
+class TreeNode(object):
     """
     Binary Tree class
     """
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+    def __init__(self, x=None):
+        if x is None:
+            self = None
+        else:
+            self.val = x
+            self.left = None
+            self.right = None
+        
+        
+    def reverse(self):
+        if self is None: return None
+        ans = TreeNode(self.val)
+        ans.left = self.right.reverse() if self.right is not None else None
+        ans.right = self.left.reverse() if self.left is not None else None
+        
+        return ans
+    
 
 
 def list2TreeNode(l1: list):
