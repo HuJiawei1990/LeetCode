@@ -100,7 +100,7 @@ class Solution:
         :rtype: List[List[int]]
         """
         results_3 = []
-        self.find_n_sum(sorted(nums), target=,  n=3, result_prefix=[], results=results_3)
+        self.find_n_sum(sorted(nums), target=0,  n=3, result_prefix=[], results=results_3)
         
         return results_3
 
