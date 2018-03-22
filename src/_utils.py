@@ -134,3 +134,9 @@ class ListNode:
             return [self.val]
         
         return [self.val] + self.next.toList()
+
+
+class Interval(object):
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
