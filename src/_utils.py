@@ -18,19 +18,29 @@ class TreeNode(object):
     """
     Binary Tree class
     """
+    
     def __init__(self, x=None):
         self.val = x
         self.left = None
         self.right = None
+    
+    def getDepth(self):
+        if self is None: return 0
+        if self.left is None and (self.right is None): return 1
+        if self.left is None: return 1 + self.right.getDepth()
+        if self.right is None: return 1 + self.left.getDepth()
         
+        return max(self.left.getDepth(), self.right.getDepth()) + 1
+    
+    
     def reverse(self):
-        #if self is None: return None
+        # if self is None: return None
         ans = TreeNode(self.val)
         ans.left = self.right.reverse() if self.right is not None else None
         ans.right = self.left.reverse() if self.left is not None else None
         
         return ans
-
+    
     def isMirror(self, tree1, tree2):
         """
         Judge two tree nodes whether they are mirror symmetric.
@@ -41,9 +51,9 @@ class TreeNode(object):
         """
         if tree1 is None and tree2 is None: return True
         if tree1 is None or tree2 is None: return False
-    
+        
         if tree1.val != tree2.val: return False
-    
+        
         return (self.isMirror(tree1.left, tree2.right)) and (self.isMirror(tree1.right, tree2.left))
     
     def isSymmetric(self):
@@ -53,11 +63,13 @@ class TreeNode(object):
     def equals(self, tree2):
         if tree2 is None: return False
         if self.val != tree2.val: return False
+        if self.getDepth() != tree2.getDepth(): return False
+        
         left_equals = self.left.equals(tree2.left) if self.left is not None else tree2.left is None
         right_equals = self.right.equals(tree2.right) if self.right is not None else tree2.right is None
         
         return left_equals and right_equals
-
+    
     
     def toList(self):
         """
@@ -65,13 +77,15 @@ class TreeNode(object):
             val elements, from left to right.
         :return: List[List[val]]
         """
-        #TODO: need to complete none node as None type in list
+        # TODO: need to complete none node as None type in list
         list_left = self.left.toList() if self.left is not None else []
         list_right = self.right.toList() if self.right is not None else []
-
+        
         if (list_left == []) + (list_right == []) == 1:
-            if list_right: list_left = [[None for _ in sublist] for sublist in list_right]
-            else: list_right = [[None for _ in sublist] for sublist in list_left]
+            if list_right:
+                list_left = [[None for _ in sublist] for sublist in list_right]
+            else:
+                list_right = [[None for _ in sublist] for sublist in list_left]
         
         return [[self.val]] + combine_list(list_left, list_right)
 
@@ -85,11 +99,10 @@ def combine_list(l1, l2):
     """
     if not l1: return l2
     if not l2: return l1
-
+    
     return [l1[0] + l2[0]] + combine_list(l1[1:], l2[1:])
 
-        
-    
+
 def list2TreeNode(l1: list):
     if not l1: return None
     
@@ -99,20 +112,24 @@ def list2TreeNode(l1: list):
     
     list_l = []
     list_r = []
-
+    
     while True:
-        list_l += l1[2**(depth+1)-1: 3*2**depth-1]
-        list_r += l1[3*2**depth-1: min(nums_list, 2**(depth+2)-1)]
-        if nums_list <= 2**(depth+2):
+        list_l += l1[2 ** (depth + 1) - 1: 3 * 2 ** depth - 1]
+        list_r += l1[3 * 2 ** depth - 1: min(nums_list, 2 ** (depth + 2) - 1)]
+        if nums_list <= 2 ** (depth + 2):
             break
-        else: depth += 1
+        else:
+            depth += 1
     
+    if (not list_l) or (list_l[0] is None):
+        tree_struc.left = None
+    else:
+        tree_struc.left = list2TreeNode(list_l)
     
-    if (not list_l) or (list_l[0] is None): tree_struc.left = None
-    else: tree_struc.left = list2TreeNode(list_l)
-    
-    if (not list_r) or (list_r[0] is None): tree_struc.right = None
-    else: tree_struc.right = list2TreeNode(list_r)
+    if (not list_r) or (list_r[0] is None):
+        tree_struc.right = None
+    else:
+        tree_struc.right = list2TreeNode(list_r)
     
     return tree_struc
 
