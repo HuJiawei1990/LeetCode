@@ -108,18 +108,16 @@ def list2TreeNode(l1: list):
     
     tree_struc = TreeNode(l1[0])
     nums_list = len(l1)
-    depth = 0
+    depth = 1
     
     list_l = []
     list_r = []
     
     while True:
-        list_l += l1[2 ** (depth + 1) - 1: 3 * 2 ** depth - 1]
-        list_r += l1[3 * 2 ** depth - 1: min(nums_list, 2 ** (depth + 2) - 1)]
-        if nums_list <= 2 ** (depth + 2):
-            break
-        else:
-            depth += 1
+        list_l += l1[2 ** depth - 1: 3 * 2 ** (depth-1) - 1]
+        list_r += l1[3 * 2 ** (depth-1) - 1: min(nums_list, 2 ** (depth + 1) - 1)]
+        if nums_list < 2 ** (depth + 1): break
+        else: depth += 1
     
     if (not list_l) or (list_l[0] is None):
         tree_struc.left = None
