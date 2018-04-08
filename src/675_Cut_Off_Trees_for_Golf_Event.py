@@ -25,6 +25,8 @@ You will start from the point (0, 0) and you should output the minimum steps
 You are guaranteed that no two trees have the same height and there is at least one tree needs to be cut off.
 """
 
+## TODO: Incomplete, cannot understand the problem.
+
 import sys
 
 
