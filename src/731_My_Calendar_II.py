@@ -44,7 +44,7 @@ class MyCalendarTwo:
         :rtype: bool
         """
         
-        self.intersections = []
+        intersections = []
         
         for interval in self.booked:
             booked_interval = self.intersection(interval, [start, end])
@@ -52,12 +52,12 @@ class MyCalendarTwo:
             if not booked_interval:
                 pass
             else:
-                for inter_interval in self.intersections:
+                for inter_interval in intersections:
                     if self.intersection(booked_interval, inter_interval):
                         return False
                 
                 ## if there is no intersection between every two intervals, add it into list
-                self.intersections.append(booked_interval)
+                intersections.append(booked_interval)
         
         self.booked.append([start, end])
         return True
