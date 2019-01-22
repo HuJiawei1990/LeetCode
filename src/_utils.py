@@ -12,6 +12,7 @@
 """
 
 import sys
+import datetime
 
 
 class TreeNode(object):
@@ -155,3 +156,16 @@ class Interval(object):
     def __init__(self, s=0, e=0):
         self.start = s
         self.end = e
+
+
+
+def run_time(func):
+    def int_time(*args, **kwargs):
+        start_time = datetime.datetime.now()  # 程序开始时间
+        func()
+        over_time = datetime.datetime.now()   # 程序结束时间
+        total_time = (over_time-start_time).total_seconds()
+        print('Call function \"%s\": cost %s seconds' % (func.__name__, total_time))
+        
+        
+    return int_time
