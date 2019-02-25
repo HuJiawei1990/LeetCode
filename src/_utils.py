@@ -13,6 +13,7 @@
 
 import sys
 import datetime
+import functools
 
 
 class TreeNode(object):
@@ -20,10 +21,12 @@ class TreeNode(object):
     Binary Tree class
     """
     
+    
     def __init__(self, x=None):
         self.val = x
         self.left = None
         self.right = None
+    
     
     def getDepth(self):
         if self is None: return 0
@@ -42,6 +45,7 @@ class TreeNode(object):
         
         return ans
     
+    
     def isMirror(self, tree1, tree2):
         """
         Judge two tree nodes whether they are mirror symmetric.
@@ -57,9 +61,11 @@ class TreeNode(object):
         
         return (self.isMirror(tree1.left, tree2.right)) and (self.isMirror(tree1.right, tree2.left))
     
+    
     def isSymmetric(self):
         if self is None: return True
         return self.isMirror(self.left, self.right)
+    
     
     def equals(self, tree2):
         if tree2 is None: return False
@@ -115,10 +121,12 @@ def list2TreeNode(l1: list):
     list_r = []
     
     while True:
-        list_l += l1[2 ** depth - 1: 3 * 2 ** (depth-1) - 1]
-        list_r += l1[3 * 2 ** (depth-1) - 1: min(nums_list, 2 ** (depth + 1) - 1)]
-        if nums_list < 2 ** (depth + 1): break
-        else: depth += 1
+        list_l += l1[2 ** depth - 1: 3 * 2 ** (depth - 1) - 1]
+        list_r += l1[3 * 2 ** (depth - 1) - 1: min(nums_list, 2 ** (depth + 1) - 1)]
+        if nums_list < 2 ** (depth + 1):
+            break
+        else:
+            depth += 1
     
     if (not list_l) or (list_l[0] is None):
         tree_struc.left = None
@@ -138,9 +146,11 @@ class ListNode:
         self.val = x
         self.next = None
     
+    
     def add_first(self, x):
         self.next = self
         self.val = x
+    
     
     def toList(self):
         if self is None:
@@ -158,14 +168,14 @@ class Interval(object):
         self.end = e
 
 
-
 def run_time(func):
-    def int_time(*args, **kwargs):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
         start_time = datetime.datetime.now()  # 程序开始时间
-        func()
-        over_time = datetime.datetime.now()   # 程序结束时间
-        total_time = (over_time-start_time).total_seconds()
+        res = func(*args, **kw)
+        over_time = datetime.datetime.now()  # 程序结束时间
+        total_time = (over_time - start_time).total_seconds()
         print('Call function \"%s\": cost %s seconds' % (func.__name__, total_time))
-        
-        
-    return int_time
+        return res
+    
+    return wrapper
